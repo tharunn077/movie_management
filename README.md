@@ -66,19 +66,21 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
     └── routes.ts
     └── kernal.ts
 ```
-
 ---
 
 # 🗄️ Database Schema
 
 ## Users Table
 
-| Column   | Type         |
-| -------- | ------------ |
-| id       | Integer (PK) |
-| username | String       |
-| email    | String       |
-| password | String       |
+| Column     | Type         |
+| ---------- | ------------ |
+| id         | Integer (PK) |
+| username   | String       |
+| email      | String       |
+| password   | String       |
+| role       | String       |
+| created_at | Timestamp    |
+| updated_at | Timestamp    |
 
 ---
 
@@ -92,6 +94,8 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 | genre        | String       |
 | release_year | Integer      |
 | description  | Text         |
+| created_at   | Timestamp    |
+| updated_at   | Timestamp    |
 
 ---
 
@@ -104,8 +108,45 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 | user_id     | Integer (FK) |
 | rating      | Integer      |
 | review_text | Text         |
+| created_at  | Timestamp    |
+| updated_at  | Timestamp    |
 
 ---
+
+# 🛣️ Route Configuration
+
+---
+
+## Authentication Routes
+
+| Method | Endpoint  | Controller              |
+| ------ | --------- | ----------------------- |
+| POST   | /register | AuthController.register |
+| POST   | /login    | AuthController.login    |
+
+---
+
+## Movie Routes
+
+| Method | Endpoint    | Controller              | Middleware |
+| ------ | ----------- | ----------------------- | ---------- |
+| GET    | /movies     | MoviesController.index  | None       |
+| POST   | /movies     | MoviesController.store  | myJwtGuard |
+| PUT    | /movies/:id | MoviesController.update | None       |
+| DELETE | /movies/:id | MoviesController.delete | adminAuth  |
+
+---
+
+## Review Routes
+
+| Method | Endpoint     | Controller               | Middleware |
+| ------ | ------------ | ------------------------ | ---------- |
+| GET    | /reviews     | ReviewsController.index  | None       |
+| POST   | /reviews     | ReviewsController.store  | myJwtGuard |
+| PUT    | /reviews/:id | ReviewsController.update | myJwtGuard |
+| DELETE | /reviews/:id | ReviewsController.delete | adminAuth  |
+
+
 
 # 🔒 Middleware
 
