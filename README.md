@@ -64,6 +64,7 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 │
 └── start/
     └── routes.ts
+    └── kernal.ts
 ```
 
 ---
