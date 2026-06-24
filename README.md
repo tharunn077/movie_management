@@ -54,7 +54,7 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 │   └── Validators/
 │       ├── MovieValidators.ts
 │       ├── ReviewValidators.ts
-│       └── UserValidators.ts
+│       └── AuthValidators.ts
 │
 ├── database/
 │   └── migrations/
