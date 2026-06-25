@@ -5,15 +5,15 @@ export default class Movie extends BaseModel {
   public id: number
 
   @column()
-  public title:string
+  public title: string
 
   @column()
-  public director:string
+  public director: string
 
   @column({ columnName: 'release_year' })
   public releaseYear: number
 
- @column({ columnName: 'imdb_rating' })
+  @column({ columnName: 'imdb_rating' })
   public imdbRating: number
 
   @column.dateTime({ autoCreate: true })

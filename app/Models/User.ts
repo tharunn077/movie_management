@@ -11,7 +11,7 @@ export default class User extends BaseModel {
   @column()
   public email: string
 
-  @column({ serializeAs: null }) 
+  @column({ serializeAs: null })
   public password: string
 
   @column()
@@ -22,6 +22,4 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  
 }

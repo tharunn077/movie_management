@@ -6,11 +6,15 @@ export class GetMoviesValidator {
   constructor(protected ctx: HttpContextContract) {}
   public data = this.ctx.request.qs()
   public schema = schema.create({
-    limit: schema.number.optional([rules.range(1, 100)]),
+   limit: schema.number.optional([rules.range(1, 100)]),
+    page: schema.number.optional([rules.range(1, 10000)]),
   })
+
   public messages = {
     'limit.range': 'The requested limit must be a number between 1 and 100.',
-    'limit.number': 'The limit parameter must be a valid number.'
+    'limit.number': 'The limit parameter must be a valid number.',
+    'page.range': 'The page number must be greater than 0.',
+    'page.number': 'The page parameter must be a valid number.',
   }
 }
 

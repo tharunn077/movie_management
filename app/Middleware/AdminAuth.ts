@@ -6,7 +6,7 @@ export default class AdminAuth {
     if (secretKey !== 'super-secret') {
       return response.status(401).json({
         error: 'Unauthorized',
-        message: 'You do not have the admin clearance required to delete movies.'
+        message: 'You do not have the admin clearance required to delete movies.',
       })
     }
     await next()

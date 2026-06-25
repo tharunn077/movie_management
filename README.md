@@ -6,13 +6,13 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 
 # 📌 Features
 
-* User Registration & Login
-* JWT Authentication
-* Movie Management (CRUD)
-* Review Management (CRUD)
-* PostgreSQL Database Integration
-* Request Validation
-* Custom Authentication Middleware
+- User Registration & Login
+- JWT Authentication
+- Movie Management (CRUD)
+- Review Management (CRUD)
+- PostgreSQL Database Integration
+- Request Validation
+- Custom Authentication Middleware
 
 ---
 
@@ -66,6 +66,7 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
     └── routes.ts
     └── kernal.ts
 ```
+
 ---
 
 # 🗄️ Database Schema
@@ -146,8 +147,6 @@ A RESTful Movie Review API built using **AdonisJS v5**, **TypeScript**, and **Po
 | PUT    | /reviews/:id | ReviewsController.update | myJwtGuard |
 | DELETE | /reviews/:id | ReviewsController.delete | adminAuth  |
 
-
-
 # 🔒 Middleware
 
 ## Global Middleware
@@ -158,9 +157,9 @@ Logs every incoming request and outgoing response.
 
 **Responsibilities:**
 
-* Logs HTTP method and URL for incoming requests
-* Logs HTTP status code for outgoing responses
-* Helps with debugging and request tracking
+- Logs HTTP method and URL for incoming requests
+- Logs HTTP status code for outgoing responses
+- Helps with debugging and request tracking
 
 Example Log:
 
@@ -179,9 +178,9 @@ Protects authenticated routes using JWT.
 
 **Responsibilities:**
 
-* Verifies JWT token
-* Authenticates users
-* Prevents unauthorized access to protected endpoints
+- Verifies JWT token
+- Authenticates users
+- Prevents unauthorized access to protected endpoints
 
 ---
 
@@ -191,9 +190,9 @@ Protects admin-only operations.
 
 **Responsibilities:**
 
-* Checks for the `admin-key` request header
-* Allows access only when the correct secret key is provided
-* Restricts sensitive operations such as movie deletion
+- Checks for the `admin-key` request header
+- Allows access only when the correct secret key is provided
+- Restricts sensitive operations such as movie deletion
 
 Example Header:
 
@@ -207,27 +206,28 @@ admin-key: super-secret
 
 ## User Validators
 
-* UserRegisterValidator
-* UserLoginValidator
+- UserRegisterValidator
+- UserLoginValidator
 
 ---
 
 ## Movie Validators
 
-* GetMoviesValidator
-* MovieValidator
-* UpdateMovieValidator
-* DeleteMovieValidator
+- GetMoviesValidator
+- MovieValidator
+- UpdateMovieValidator
+- DeleteMovieValidator
 
 ---
 
 ## Review Validators
 
-* GetReviewsValidator
-* CreateReviewValidator
-* UpdateReviewValidator
-* DeleteReviewValidator
- # ⚠️ Exception Handling
+- GetReviewsValidator
+- CreateReviewValidator
+- UpdateReviewValidator
+- DeleteReviewValidator
+
+# ⚠️ Exception Handling
 
 ## Handler.ts
 
@@ -235,10 +235,10 @@ A centralized exception handler is used to provide consistent error responses th
 
 **Handles:**
 
-* Validation errors (422)
-* Authentication/Authorization errors (401)
-* Route not found errors (404)
-* Internal server errors (500)
+- Validation errors (422)
+- Authentication/Authorization errors (401)
+- Route not found errors (404)
+- Internal server errors (500)
 
 ### Sample Error Response
 
@@ -248,4 +248,3 @@ A centralized exception handler is used to provide consistent error responses th
   "message": "Validation failed. Please check your inputs."
 }
 ```
-

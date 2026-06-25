@@ -8,7 +8,7 @@ export default class AuthController {
   public async register({ request, response }: HttpContextContract) {
     const validatedData = await request.validate(RegisterValidator)
     const user = await User.create(validatedData)
-    
+
     return response.created({ message: 'User created successfully', user })
   }
 

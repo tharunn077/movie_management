@@ -44,4 +44,3 @@ Server.middleware.registerNamed({
   adminAuth: () => import('App/Middleware/AdminAuth'),
   myJwtGuard: () => import('App/Middleware/JwtAuth'),
 })
-

@@ -4,7 +4,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export class GetReviewsValidator {
   constructor(protected ctx: HttpContextContract) {}
   public data = this.ctx.request.qs()
-  
+
   public schema = schema.create({
     limit: schema.number.optional([rules.range(1, 100)]),
   })
