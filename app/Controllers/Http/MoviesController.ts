@@ -8,38 +8,67 @@ import {
 } from 'App/Validators/MovieValidator'
 
 export default class MoviesController {
-  public async index({ request }: HttpContextContract) {
-    const payload = await request.validate(GetMoviesValidator)
+  public async index({ request, response }: HttpContextContract) {
+    try {
+      const payload = await request.validate(GetMoviesValidator)
 
-    const page = payload.page || 1
-    const limit = payload.limit || 10
+      const movies = Movie.query().paginate(payload.page, payload.limit)
 
-    const movies = await Movie.query().paginate(page, limit)
-
-    return movies
+      return movies
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to fetch movies.',
+        error: error.messages || error.message,
+      })
+    }
   }
 
-  public async store({ request }: HttpContextContract) {
-    const validatedPayload = await request.validate(MovieValidator)
-    const movie = await Movie.create(validatedPayload)
-    return movie
+  public async store({ request, response }: HttpContextContract) {
+    try {
+      const validatedPayload = await request.validate(MovieValidator)
+
+      return Movie.create(validatedPayload)
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to create movie.',
+        error: error.messages || error.message,
+      })
+    }
   }
 
-  public async update({ params, request }: HttpContextContract) {
-    const validatedPayload = await request.validate(UpdateMovieValidator)
-    const movie = await Movie.findOrFail(params.id)
+  public async update({ params, request, response }: HttpContextContract) {
+    try {
+      await request.validate(UpdateMovieValidator)
 
-    movie.merge(validatedPayload)
-    await movie.save()
+      const movie = await Movie.findOrFail(params.id)
 
-    return movie
+      movie.merge(request.only(['title', 'director', 'releaseYear', 'imdbRating']))
+      await movie.save()
+      return movie
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to update movie.',
+        error: error.messages || error.message,
+      })
+    }
   }
 
-  public async delete({ params, request }: HttpContextContract) {
-    await request.validate(DeleteMovieValidator)
-    const movie = await Movie.findOrFail(params.id)
+  public async delete({ params, request, response }: HttpContextContract) {
+    try {
+      await request.validate(DeleteMovieValidator)
 
-    await movie.delete()
-    return { message: `Movie with ID ${params.id} has been permanently deleted.` }
+      const movie = await Movie.findOrFail(params.id)
+
+      await movie.delete()
+
+      return {
+        message: `Movie with ID ${params.id} has been permanently deleted.`,
+      }
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to delete movie.',
+        error: error.messages || error.message,
+      })
+    }
   }
 }

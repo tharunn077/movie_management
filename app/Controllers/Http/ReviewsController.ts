@@ -8,36 +8,70 @@ import {
 } from 'App/Validators/ReviewValidator'
 
 export default class ReviewsController {
-  public async index({ request }: HttpContextContract) {
-    const { limit } = await request.validate(GetReviewsValidator)
+  public async index({ request, response }: HttpContextContract) {
+    try {
+      const { limit } = await request.validate(GetReviewsValidator)
 
-    if (limit) {
-      return await Review.query().limit(limit)
+      if (limit) {
+        return Review.query().limit(limit)
+      }
+
+      return Review.all()
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to fetch reviews.',
+        error: error.messages || error.message,
+      })
     }
-    return await Review.all()
   }
 
-  public async store({ request }: HttpContextContract) {
-    const validatedPayload = await request.validate(CreateReviewValidator)
-    const review = await Review.create(validatedPayload)
-    return review
+  public async store({ request, response }: HttpContextContract) {
+    try {
+      const validatedPayload = await request.validate(CreateReviewValidator)
+
+      return Review.create(validatedPayload)
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to create review.',
+        error: error.messages || error.message,
+      })
+    }
   }
 
-  public async update({ params, request }: HttpContextContract) {
-    const validatedPayload = await request.validate(UpdateReviewValidator)
-    const review = await Review.findOrFail(params.id)
+  public async update({ params, request, response }: HttpContextContract) {
+    try {
+      await request.validate(UpdateReviewValidator)
 
-    review.merge(validatedPayload)
-    await review.save()
+      const review = await Review.findOrFail(params.id)
 
-    return review
+      review.merge(request.only(['rating', 'comment']))
+      await review.save()
+
+      return review
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to update review.',
+        error: error.messages || error.message,
+      })
+    }
   }
 
-  public async delete({ params, request }: HttpContextContract) {
-    await request.validate(DeleteReviewValidator)
-    const review = await Review.findOrFail(params.id)
+  public async delete({ params, request, response }: HttpContextContract) {
+    try {
+      await request.validate(DeleteReviewValidator)
 
-    await review.delete()
-    return { message: `Review with ID ${params.id} has been permanently deleted.` }
+      const review = await Review.findOrFail(params.id)
+
+      await review.delete()
+
+      return {
+        message: `Review with ID ${params.id} has been permanently deleted.`,
+      }
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to delete review.',
+        error: error.messages || error.message,
+      })
+    }
   }
 }

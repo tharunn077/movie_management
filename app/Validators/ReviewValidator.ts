@@ -20,10 +20,22 @@ export class CreateReviewValidator {
 }
 
 export class UpdateReviewValidator {
+  constructor(protected ctx: HttpContextContract) {}
+
+  public data = {
+    ...this.ctx.request.body(),
+    id: Number(this.ctx.params.id),
+  }
+
   public schema = schema.create({
+    id: schema.number(),
     rating: schema.number([rules.range(1, 5)]),
     comment: schema.string.optional({ trim: true }, [rules.maxLength(500)]),
   })
+
+  public messages = {
+    'id.number': 'Review ID must be a valid number.',
+  }
 }
 
 export class DeleteReviewValidator {
